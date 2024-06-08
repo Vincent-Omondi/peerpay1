@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - DB_USER=vinomondi
+      - DB_PASSWORD=centomakenzo
+      - DB_HOST=db
+      - DB_PORT=8080
+      - DB_NAME=peerpay
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: centomakenzo
+      MYSQL_DATABASE: peerpay
+    ports:
+      - "8080:8080"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
