@@ -3,8 +3,7 @@ package database
 
 import (
 	"log"
-
-	"peerpay/models"
+	"peerpay/backend/models"
 )
 
 func Migrate() {

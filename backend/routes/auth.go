@@ -2,7 +2,8 @@
 package routes
 
 import (
-	"peerpay/controllers"
+	"peerpay/backend/controllers"
+
 	"github.com/gin-gonic/gin"
 )
 

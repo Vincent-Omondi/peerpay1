@@ -3,9 +3,9 @@ package controllers
 
 import (
 	"net/http"
-	"peerpay/models"
-	"peerpay/utils"
-	"time"
+
+	"peerpay/backend/models"
+	"peerpay/backend/utils"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -53,7 +53,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
 		return
 	}
-
+	// token, err := utils.GenerateToken(user.ID)
 	token, err := utils.GenerateToken(user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})

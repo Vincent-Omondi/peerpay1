@@ -2,11 +2,13 @@
 package main
 
 import (
-	"peerpay/config"
-	"peerpay/database"
-	"peerpay/routes"
+	"net/http"
+
+	"peerpay/backend/database"
+	"peerpay/backend/routes"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-delve/delve/pkg/config"
 )
 
 func main() {
@@ -14,13 +16,24 @@ func main() {
 	database.Connect()
 	database.Migrate()
 
+	// Set Gin to release mode
+	gin.SetMode(gin.ReleaseMode)
+
 	router := gin.Default()
+
+	// Trust specific proxies
+	router.SetTrustedProxies(nil) // Nil means trusting no proxies
 
 	// Register routes
 	routes.AuthRoutes(router)
 	routes.ProfileRoutes(router)
 	routes.SharesRoutes(router)
 	routes.AdminRoutes(router)
+
+	// Handle 404 errors
+	router.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{"Peerpay": "Not Found"})
+	})
 
 	router.Run(":8080")
 }

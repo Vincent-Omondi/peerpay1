@@ -3,12 +3,13 @@ package utils
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtSecret = []byte("your_secret_key")
+var jwtSecret = []byte(getEnv("JWT_SECRET", "DaEcJNDu9OVPownm6c1FDt3pCT+YtK20mkwsTKdQZaM="))
 
 type Claims struct {
 	UserID uint `json:"user_id"`
@@ -37,7 +38,6 @@ func ValidateToken(tokenString string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -47,4 +47,12 @@ func ValidateToken(tokenString string) (*Claims, error) {
 	}
 
 	return claims, nil
+}
+
+func getEnv(key, fallback string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+	return value
 }

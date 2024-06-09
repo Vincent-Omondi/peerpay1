@@ -3,7 +3,8 @@ package controllers
 
 import (
 	"net/http"
-	"peerpay/models"
+
+	"peerpay/backend/models"
 
 	"github.com/gin-gonic/gin"
 )
